@@ -4,11 +4,10 @@
 
 ###### *Project settings are :*
 
-1. ###### *starter kit:* livewire
+1. ###### *starter kit:* react
 2. ###### *authentication provider:*  laravel
-3. ###### *Laravel volt:* no
-4. ###### *testing software:* pest (0)
-5. ###### *run:* npm install
+3. ###### *testing software:* pest (0)
+4. ###### *run:* npm install
 
 
 
