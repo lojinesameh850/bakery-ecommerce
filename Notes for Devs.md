@@ -7,7 +7,7 @@
 1. ###### *starter kit:* react
 2. ###### *authentication provider:*  laravel
 3. ###### *testing software:* pest (0)
-4. ###### *run:* npm install
+4. ###### *run:* yes
 
 
 
