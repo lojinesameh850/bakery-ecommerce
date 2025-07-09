@@ -1,4 +1,4 @@
-**Repository Management**
+### **Repository Management**
 
 *To link a repository:*
 
@@ -22,7 +22,7 @@ git remote remove origin
 
 
 
-**Branch Management**
+### **Branch Management**
 
 *To list all local branches and have the branch you are currently in highlighted:*
 
@@ -52,7 +52,7 @@ git branch -D <branch-name>
 
 
 
-**Committing changes and pushing**
+### **Committing changes and pushing**
 
 *(Note that: to push to a branch, you may need to pull first.)*
 
@@ -64,7 +64,7 @@ git push origin <branch\_name>
 
 
 
-**Pulling**
+### **Pulling**
 
 git pull origin <branch\_name>
 
