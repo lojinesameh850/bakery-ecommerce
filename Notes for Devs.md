@@ -19,3 +19,12 @@
 2. ###### npm install
 3. ###### npm run dev
 4. ###### o *(to open on browser)*
+
+
+
+### **Backend Testing**
+
+###### *You'll likely need these during testing:*
+
+1. ###### *To run Laravel backend / development server (must do at the beginning):* php artisan migrate:fresh 
+2. ###### *To clear migrations:* php artisan migrate:fresh 

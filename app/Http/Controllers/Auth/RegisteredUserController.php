@@ -5,47 +5,54 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Show the registration page.
-     */
-    public function create(): Response
-    {
-        return Inertia::render('auth/register');
-    }
-
     /**
      * Handle an incoming registration request.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+
+    public function store(Request $request)
     {
-        $request->validate([
+        // Validate the request
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => [
+                'required',
+                'string',
+                'min:13',
+                'max:13',
+                'unique:users',
+                'regex:/^\+201\d{9}$/'
+            ],
+            'password' => 'required|string|min:8|confirmed',
         ]);
 
+        // Create the user
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $validated['name'],
+            'phone' => $validated['phone'],
+            'password' => Hash::make($validated['password']),
         ]);
 
-        event(new Registered($user));
-
+        // Optional: Log the user in immediately
         Auth::login($user);
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Return success response with user data
+        return response()->json([
+            'message' => 'User registered successfully.',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'phone' => $user->phone,
+            ],
+        ], 201);
     }
 }
