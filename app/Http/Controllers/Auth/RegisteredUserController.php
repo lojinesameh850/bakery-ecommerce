@@ -5,54 +5,54 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
+    /**
+     * Display the registration view.
+     */
+    public function create(): Response
+    {
+        return Inertia::render('Auth/Register');
+    }
+
     /**
      * Handle an incoming registration request.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        // Validate the request
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
             'phone' => [
                 'required',
                 'string',
                 'min:13',
                 'max:13',
-                'unique:users',
+                'unique:users,phone',
                 'regex:/^\+201\d{9}$/'
             ],
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Create the user
         $user = User::create([
-            'name' => $validated['name'],
-            'phone' => $validated['phone'],
-            'password' => Hash::make($validated['password']),
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'password' => Hash::make($request->password),
         ]);
 
-        // Optional: Log the user in immediately
+        event(new Registered($user));
+
         Auth::login($user);
 
-        // Return success response with user data
-        return response()->json([
-            'message' => 'User registered successfully.',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'phone' => $user->phone,
-            ],
-        ], 201);
+        return redirect(route('verify-registration', absolute: false));
     }
 }

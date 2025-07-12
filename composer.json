@@ -15,7 +15,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.10.1",
         "laravel/ui": "*",
-        "tightenco/ziggy": "^2.4",
+        "tightenco/ziggy": "^2.0",
         "twilio/sdk": "^8.6"
     },
     "require-dev": {

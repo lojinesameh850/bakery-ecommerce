@@ -108,7 +108,7 @@ class VerifyPhoneController extends Controller
     {
         if ($request->user()->hasVerifiedPhone()) {
             return redirect()->intended(
-                config('app.frontend_url').'/dashboard?verified=1'
+                config('app.frontend_url').'/verify-registration?verified=1'
             );
         }
 
@@ -117,7 +117,7 @@ class VerifyPhoneController extends Controller
         }
 
         return redirect()->intended(
-            config('app.frontend_url').'/dashboard?verified=1'
+            config('app.frontend_url').'/verify-registration?verified=1'
         );
     }
 
